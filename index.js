@@ -13,7 +13,9 @@ var options = {
 } 
 
 var entryWidth = 0;
-
+var show = false;
+var currentPos = -1; 
+var headers = [];
 
 function isUpside() {
     var docViewTop = $(window).scrollTop(); 
@@ -80,21 +82,7 @@ function isScrolledIntoView(elem)
     return ((elemBottom + ($(window).height() / 2) <= docViewBottom) && (elemTop >= docViewTop + ($(window).height() / 3))); 
 } 
 
-var styleElem = document.head.appendChild(document.createElement("style")); 
 
-styleElem.innerHTML = "#HeaderIndex:before { content: \"\"; position: absolute; bottom: 7px; left: 0; width: 2px; height: 100%; background-color: " + options.primaryColor + ";}"; 
-
-
-var entry = document.querySelector(options.content); 
-entryWidth = entry.offsetWidth;
-
-var headers = entry.querySelectorAll(options.header); 
-
-
-
-
-var show = false;
-var currentPos = -1; 
 
 function onscroll() { 
 	for(let i =0; i<headers.length;i++) { 
@@ -137,4 +125,18 @@ function onscroll() {
 
 } 
 
-window.addEventListener('scroll', onscroll) 
+
+
+window.addEventListener("DOMContentLoaded", function() {
+	var styleElem = document.head.appendChild(document.createElement("style")); 
+
+	styleElem.innerHTML = "#HeaderIndex:before { content: \"\"; position: absolute; bottom: 7px; left: 0; width: 2px; height: 100%; background-color: " + options.primaryColor + ";}"; 
+
+
+	var entry = document.querySelector(options.content); 
+	entryWidth = entry.offsetWidth;
+
+	headers = entry.querySelectorAll(options.header); 
+
+	window.addEventListener('scroll', onscroll);
+}, false);
